@@ -24,7 +24,6 @@ public class WeatherController {
         String request = String.format("%s?lat=%s&lon=%s&units=metric&appid=%s",
                 urlWeather, lat, lon, appId);
         Root response = restTemplate.getForObject(request, Root.class);
-        System.out.println("fghhgsd");
         return response != null ? response.getMain() : null;
     }
 }
