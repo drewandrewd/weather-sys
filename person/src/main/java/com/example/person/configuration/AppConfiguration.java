@@ -1,4 +1,4 @@
-package com.example.weather.configuration;
+package com.example.person.configuration;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -10,12 +10,7 @@ public class AppConfiguration {
 
     @Bean
     @LoadBalanced
-    public RestTemplate getRestTemplate() {
-        return new RestTemplate();
-    }
-
-    @Bean(name = "apiRestTemplate")
-    public RestTemplate getApiRestTemplate() {
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 }

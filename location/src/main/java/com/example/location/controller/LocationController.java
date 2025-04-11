@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,6 +24,17 @@ public class LocationController {
 
     @Autowired
     private LocationRepository repository;
+
+    @Autowired
+    RestTemplate restTemplate;
+
+    @Autowired
+    private org.springframework.cloud.client.discovery.DiscoveryClient discoveryClient;
+
+    @GetMapping("/services")
+    public List<String> getServices() {
+        return discoveryClient.getServices(); // должен вернуть ["weather", ...]
+    }
 
     @PostMapping
     public Location save(@RequestBody Location location) {
@@ -54,9 +66,8 @@ public class LocationController {
     @GetMapping("/weather")
     public Weather redirectRequestWeather(@RequestParam String name) {
         Location location = repository.findByName(name).get();
-        RestTemplate restTemplate = new RestTemplate();
         System.out.println(name);
-        String url = String.format("http://localhost:8082/weather?lat=%s&lon=%s", location.getLatitude(), location.getLongitude());
+        String url = String.format("http://weather/weather?lat=%s&lon=%s", location.getLatitude(), location.getLongitude());
         return restTemplate.getForObject(url, Weather.class);
     }
 
