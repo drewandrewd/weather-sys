@@ -4,6 +4,7 @@ import com.example.person.model.Person;
 import com.example.person.model.Weather;
 import com.example.person.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,11 +29,15 @@ public class PersonController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Value("${url.location-service}")
+    private String locationServiceUrl;
+
     @GetMapping("{id}/weather")
     public ResponseEntity<Weather> getWeather(@PathVariable Long id) {
         if (repository.existsById(id)) {
             String location = repository.findById(id).get().getLocation();
-            Weather weather = restTemplate.getForObject("http://location/location/weather?name=" + location, Weather.class);
+            String url = String.format("%s/weather?name=%s", locationServiceUrl, location);
+            Weather weather = restTemplate.getForObject(url, Weather.class);
             return new ResponseEntity(weather, HttpStatus.OK);
         }
         return new ResponseEntity(null, HttpStatus.NOT_FOUND);
