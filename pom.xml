@@ -12,6 +12,7 @@
         <module>person</module>
         <module>location</module>
         <module>weather</module>
+        <module>discovery-server</module>
     </modules>
 
     <properties>

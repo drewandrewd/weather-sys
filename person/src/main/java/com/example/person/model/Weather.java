@@ -1,4 +1,4 @@
-package com.example.weather.model;
+package com.example.person.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Main{
+public class Weather {
 
     private double temp;
     private double feels_like;
